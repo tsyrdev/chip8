@@ -1,0 +1,66 @@
+#ifndef CHIP_HPP
+#define CHIP_HPP
+
+#include <_types/_uint8_t.h>
+#include <cstring>
+#include <iostream> 
+#include <_types/_uint16_t.h>
+#include <fstream>
+#include <string>
+#include <cstdio>
+#include <random>
+
+#include <stdint.h>
+
+enum OPRET {
+    SUCCESS,
+    DRAW,
+    SLEEP,
+    LOADF,
+    READF
+};
+
+class Chip {
+    private:
+        unsigned char fontset[80] =
+        { 
+          0xF0, 0x90, 0x90, 0x90, 0xF0, // 0
+          0x20, 0x60, 0x20, 0x20, 0x70, // 1
+          0xF0, 0x10, 0xF0, 0x80, 0xF0, // 2
+          0xF0, 0x10, 0xF0, 0x10, 0xF0, // 3
+          0x90, 0x90, 0xF0, 0x10, 0x10, // 4
+          0xF0, 0x80, 0xF0, 0x10, 0xF0, // 5
+          0xF0, 0x80, 0xF0, 0x90, 0xF0, // 6
+          0xF0, 0x10, 0x20, 0x40, 0x40, // 7
+          0xF0, 0x90, 0xF0, 0x90, 0xF0, // 8
+          0xF0, 0x90, 0xF0, 0x10, 0xF0, // 9
+          0xF0, 0x90, 0xF0, 0x90, 0x90, // A
+          0xE0, 0x90, 0xE0, 0x90, 0xE0, // B
+          0xF0, 0x80, 0x80, 0x80, 0xF0, // C
+          0xE0, 0x90, 0x90, 0x90, 0xE0, // D
+          0xF0, 0x80, 0xF0, 0x80, 0xF0, // E
+          0xF0, 0x80, 0xF0, 0x80, 0x80  // F
+        };
+        uint8_t mem[4096] = {0};  
+        uint8_t gen_regs[15] = {0}; 
+        uint8_t delay_reg; 
+        uint8_t sound_reg; 
+        uint8_t flag_reg; 
+        uint16_t mem_reg; 
+
+        uint16_t pc = 512; 
+
+        uint8_t sp = 0;
+        uint16_t stack[16] = {0}; 
+
+        uint8_t vram[32][64] = {0}; 
+    public: 
+        uint16_t keys[16] = {0};
+        Chip(); 
+        int LoadRom(char *filepath); 
+        int FetchDecodeExec(); 
+        uint8_t (&getVram())[32][64]; 
+};
+ 
+
+#endif
