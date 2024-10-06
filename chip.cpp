@@ -31,7 +31,6 @@ int Chip::FetchDecodeExec() {
 
     uint16_t currIns = (mem[pc] << 8) | mem[pc + 1];
     
-    std::cout << std::hex << static_cast<unsigned int>(currIns) << std::endl;
     pc += 2;
 
     uint8_t firstHex = (currIns >> 12) & 0xF;  
